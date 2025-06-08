@@ -4,7 +4,10 @@ package tools.commandImpl;
 import java.util.ArrayList;
 import java.util.List;
 
-import tools.baseCommand.BaseCommand;
+import tools.InputReaderImpl.FileInputReader;
+import tools.InputReaderImpl.ScanInputReader;
+import tools.contract.BaseCommand;
+import tools.contract.InputReader;
 import tools.enums.LineNumberMode;
 import tools.utils.Constants;
 import tools.utils.Helper;
@@ -14,9 +17,9 @@ public class CatCommand implements BaseCommand {
 	
 	private LineNumberMode lineNumberMode;
 	
-	private Integer lineNumbers;
+	private InputReader inputReader;
 	
-	 private final List<String> fileNames = new ArrayList<>();
+	private final List<String> fileNames = new ArrayList<>();
 	
 	
 	
@@ -31,14 +34,7 @@ public class CatCommand implements BaseCommand {
 	}
 	
 	
-	public Integer getLineNumbers() {
-		return lineNumbers;
-	}
-
-
-	public void setLineNumbers(Integer lineNumbers) {
-		this.lineNumbers = lineNumbers;
-	}
+	
 
 
 	public List<String> getFileNames() {
@@ -46,54 +42,34 @@ public class CatCommand implements BaseCommand {
 	}
 
 
-		
-
-
-	@Override
-	public String toString() {
-		return "CatCommand [lineNumberMode=" + this.lineNumberMode + ", lineNumbers=" + this.lineNumbers + ", fileNames="
-				+ this.fileNames + "]";
-	}
-
-
+	
 	public CatCommand(String[] args) {
 		
 	//	System.out.println(Arrays.toString(args));
 		
 		for(int i=1;i<args.length;i++) {
 			
+			if (args[i].isBlank()) continue;
+						
 			parseArgument(args[i]);
 	
+		}
+		
+		if(fileNames.isEmpty()) {
+			this.inputReader = new ScanInputReader();
+		}else {
+			this.inputReader = new FileInputReader(fileNames);
 		}
 		
 	}
 	
 	void parseArgument(String value) {
 		
-		
-		if(value.trim().isBlank()) {
-			return;
-		}
-				
+			
 		
 		if (value.startsWith(Constants.LINE_MODE_HYPEN_N)) {
 		       
-			 applyMode(LineNumberMode.N, value);
-		     
-			 String suffix = value.substring(Constants.LINE_MODE_HYPEN_N.length());
-		     
-			 if (!suffix.isBlank()) {
-		     
-				 try {
-					 
-		          setLineNumbers(Integer.parseInt(suffix));
-		         
-				 } catch (NumberFormatException e) {
-		             throw new RuntimeException("Invalid number in argument: " + value);
-		         }
-		        
-			 }
-		     
+			 applyMode(LineNumberMode.N, value);		     
 			 return;
 		  }
 		 
@@ -116,6 +92,7 @@ public class CatCommand implements BaseCommand {
 		if(Helper.isValidFile(value)) {
 			
 			fileNames.add(value);
+			
 					
 		}
 		
@@ -125,41 +102,56 @@ public class CatCommand implements BaseCommand {
 
 
 	@Override
-	public void performAction(String[] args) {
+	public List<String> performAction(String[] args) {
 		
 		if (lineNumberMode == null) {
-            throw new IllegalStateException("No line number mode specified.");
+            lineNumberMode = LineNumberMode.NONE; // default mode if none provided
         }
-	
-		switch(lineNumberMode) {
-			case N:
-			case NONE:
-				performActionForHypenN();
-				break;
-			case B:
-				performActionForHypenB();
-				break;
-		}
+				
+		return printOutput();
+		
 		
 	}
 
 	
-	void performActionForHypenN() {
-		
+	
+	List<String> printOutput() {
+		List<String> lines = inputReader.readInput();
+		List<String> output = new ArrayList<>();
+
+		int count = 1;
+		for (String line : lines) {
+			switch (lineNumberMode) {
+			case N:
+				output.add(String.format("%6d  %s", count++, line));
+				break;
+			case B:
+				if (!line.trim().isEmpty()) {
+					output.add(String.format("%6d  %s", count++, line));
+				} else {
+					output.add("");
+				}
+				break;
+			case NONE:
+			default:
+				output.add(line);
+			}
+		}
+		return output;
 	}
 	
 	
-	void performActionForHypenB() {
-		
+	
+	
+	void applyMode(LineNumberMode mode, String originalValue) {
+		if (lineNumberMode != null) {
+			throw new RuntimeException(
+					String.format("Invalid argument %s: mode %s already set", originalValue, lineNumberMode));
+		}
+		setLineNumberMode(mode);
 	}
 	
 	
-	
-	 void applyMode(LineNumberMode mode, String originalValue) {
-	    if (lineNumberMode != null) {
-	        throw new RuntimeException(String.format("Invalid argument %s: mode %s already set", originalValue, lineNumberMode));
-	    }
-	    setLineNumberMode(mode);
-	}
+
 
 }

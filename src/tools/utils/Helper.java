@@ -2,7 +2,7 @@ package tools.utils;
 
 import java.io.File;
 
-import tools.baseCommand.BaseCommand;
+import tools.contract.BaseCommand;
 
 public class Helper {
 	

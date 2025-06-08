@@ -1,8 +1,10 @@
 package tools;
 
-import tools.baseCommand.BaseCommand;
+import java.util.List;
+
 import tools.commandImpl.CatCommand;
 import tools.commandImpl.CutCommand;
+import tools.contract.BaseCommand;
 import tools.utils.Helper;
 
 public class Main {
@@ -23,8 +25,10 @@ public class Main {
 	 
 	
 	 
-	// command.performAction(args);
-	
+	 List<String> lines = command.performAction(args);
+	 for(var line : lines ) {
+		 System.out.println(line);
+	 }
 	 
 	 
 	}

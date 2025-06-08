@@ -1,8 +1,9 @@
 package tools.commandImpl;
 
 import java.util.Arrays;
+import java.util.List;
 
-import tools.baseCommand.BaseCommand;
+import tools.contract.BaseCommand;
 
 public class CutCommand implements BaseCommand {
 	
@@ -15,9 +16,10 @@ public class CutCommand implements BaseCommand {
 	}
 
 	@Override
-	public void performAction(String[] args) {
+	public List<String> performAction(String[] args) {
 		
 		System.out.println(Arrays.toString(args));
+		return null;
 		
 	}
 
