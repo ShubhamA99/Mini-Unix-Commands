@@ -1,22 +1,15 @@
 
-
 # Mini Unix Commands
 
-:contentReference[oaicite:1]{index=1}
-
----
+A lightweight Java implementation of classic Unix commands, designed for modularity, readability, and ease of extension. Currently supports `cat` with line‑numbering options, pluggable input readers, and a pipeline-ready architecture.
 
 ## 🚀 Features
 
-- :contentReference[oaicite:2]{index=2}
-  - :contentReference[oaicite:3]{index=3}
-  - :contentReference[oaicite:4]{index=4}
-- **Abstracted input**:
-  - :contentReference[oaicite:5]{index=5}
-  - :contentReference[oaicite:6]{index=6}
-- :contentReference[oaicite:7]{index=7}
-- :contentReference[oaicite:8]{index=8}
-
+- `cat` command (NTU implementation) with support for:
+  - `-n` — number **all** lines
+  - `-b` — number **non-blank** lines
+  - Default behavior when no flags provided
+- Ready for future extensions like `grep`, `cut`, `head`, etc.
 
 
 
