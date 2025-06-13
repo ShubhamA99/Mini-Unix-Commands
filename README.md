@@ -20,7 +20,7 @@ A lightweight Java implementation of classic Unix commands, designed for modular
 
 ## 🎯 Roadmap
 
-* 🌟 Add commands: `cut`, `grep`, `head`, `tail`, `wc`
+* 🌟 Add commands:  `grep`, `head`, `tail`, `wc`
 * 🌟 CLI parsing with pipes (`|`) and redirection (`>`, `<`)
 * 🌟 Lazy stream handling via `Stream<String>`
 * 🌟 `--help`, `--version`, rich CLI UX
