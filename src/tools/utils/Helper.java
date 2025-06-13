@@ -31,6 +31,17 @@ public class Helper {
     }
 
 	
+	public static boolean isInteger(String value) {
+		
+		if (value == null) return false;
+	    try {
+	        Integer.parseInt(value);
+	        return true;
+	    } catch (NumberFormatException e) {
+	        return false;
+	    }
+	    
+	}
 	
 
 }

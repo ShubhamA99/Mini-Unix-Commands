@@ -1,15 +1,18 @@
-
 # Mini Unix Commands
 
-A lightweight Java implementation of classic Unix commands, designed for modularity, readability, and ease of extension. Currently supports `cat` with line‑numbering options, pluggable input readers, and a pipeline-ready architecture.
+A lightweight Java implementation of classic Unix commands, designed for modularity, readability, and ease of extension. Currently supports `cat` and `cut` commands with various options, pluggable input readers, and a pipeline-ready architecture.
 
 ## 🚀 Features
 
-- `cat` command (NTU implementation) with support for:
+- `cat` command with support for:
   - `-n` — number **all** lines
   - `-b` — number **non-blank** lines
   - Default behavior when no flags provided
-- Ready for future extensions like `grep`, `cut`, `head`, etc.
+- `cut` command with support for:
+  - Field-based cutting using `-f` option
+  - Character-based cutting using `-c` option
+  - Custom delimiter support
+- Ready for future extensions like `grep`, `head`, etc.
 
 
 

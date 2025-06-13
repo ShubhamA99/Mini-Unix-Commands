@@ -1,5 +1,5 @@
 package tools.enums;
 
 public enum LineNumberMode {
-	 N, B, NONE
+	 N, B, NONE,F
 }
